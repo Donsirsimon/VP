@@ -78,6 +78,9 @@
 	  
 	  if (!empty($_POST["emailinput"])){
 		$email = test_input($_POST["emailinput"]);
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+			$emailerror = "Pole meiliaadress!";
+		}
 	  } else {
 		  $emailerror = "Palun sisesta e-postiaadress!";
 	  }
@@ -101,7 +104,7 @@
 	  if(empty($firstnameerror) and empty($lastnameerror) and empty($gendererror) and empty($birthdayerror) and empty($birthmontherror) and empty($birthyearerror) and empty($birthdateerror) and empty($emailerror) and empty($passworderror) and empty($confirmpassworderror)){
 		$result = signup($firstname, $lastname, $birthdate, $gender, $email, $_POST["passwordinput"]);
 		//$notice = "Kõik korras!";
-		if($result == "ok"){
+		if($result == "Ok"){
 			$notice = "Kõik korras, kasutaja loodud!";
 			$firstname= "";
 			$lastname = "";
