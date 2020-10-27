@@ -51,10 +51,18 @@
 	function storemoviegenre($movieinput, $genreinput){
 		$notice = null;
 		$conn = new mysqli($GLOBALS["serverhost"], $GLOBALS["serverusername"], $GLOBALS["serverpassword"], $GLOBALS["database"]);
-		$stmt = $conn->prepare("SET FOREIGN_KEY_CHECKS=0");
-		if ($stmt->execute());
+		//$stmt = $conn->prepare("SET FOREIGN_KEY_CHECKS=0");
+		$stmt = $conn->prepare("SELECT movie_genre_id FROM movie_genre WHERE movie_id = ? AND genre_id = ?");
+		echo $conn->error;
+		$stmt->bind_param("ii", $movieinput, $genreinput);
+		$stmt->bind_result($idfromdb);
+		$stmt->execute();
+		if($stmt->fetch()){
+			$notice = "Selline seos on juba olemas!";
+		}
+		else {
 			$stmt->close();
-			$stmt = $conn->prepare("INSERT INTO movie_genre (movie_genre_id, movie_id, genre_id) VALUES(NULL,?,?)");
+			$stmt = $conn->prepare("INSERT INTO movie_genre ( movie_id, genre_id) VALUES(?,?)");
 			echo $conn->error;
 			$stmt->bind_param("ii", $movieinput, $genreinput);
 			if ($stmt->execute()) {
@@ -63,12 +71,14 @@
 			else {
 				$notice = "Žanri salvestamisel tekkis viga: " .$stmt->error;
 			}
-			$stmt->close();
-			$stmt = $conn->prepare("SET FOREIGN_KEY_CHECKS=1");
-			$stmt->execute();
-			$stmt->close();
-			$conn->close();
-			return $notice;    	  
+		}	
+			//$stmt->close();
+			//$stmt = $conn->prepare("SET FOREIGN_KEY_CHECKS=1");
+			//$stmt->execute();
+	$stmt->close();
+	$conn->close();
+	return $notice; 
+					
 	}				  
 		
   

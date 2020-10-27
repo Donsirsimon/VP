@@ -11,7 +11,7 @@ $notice = "";
 readmovies();
 readgenres();
 //kui klikit submit siis ...
-if(isset($_POST["filmgernesubmit"])){
+if(isset($_POST["filmgenresubmit"])){
 	$movieinput = $_POST["filminput"];
 	$genreinput = $_POST["genreinput"];
 	if(!empty($movieinput) and !empty($genreinput)){
@@ -52,7 +52,7 @@ require("header.php");
 	</select>
 	<br>
 	<br>
-	<input type="submit" name="filmgernesubmit" value="Salvesta filmižanr">
+	<input type="submit" name="filmgenresubmit" value="Salvesta filmižanr">
 
 </form>
 <br>
